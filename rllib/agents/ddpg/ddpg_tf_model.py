@@ -81,7 +81,7 @@ class DDPGTFModel(TFModelV2):
                         name="LayerNorm_{}".format(i)
                     )(last_layer)
             actor_out = tf.keras.layers.Dense(
-                self.action_dim, activation=None, name="actor_out"
+                self.action_dim, activation=softmax, name="actor_out"
             )(last_layer)
         else:
             actor_out = self.model_out
