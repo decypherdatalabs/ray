@@ -41,7 +41,7 @@ logger = logging.getLogger(__name__)
 def build_ddpg_models(
     policy: Policy,
     observation_space: gym.spaces.Space,
-    action_space: gym.spaces.Space,
+    action_space: gym.spaces.Discrete,
     config: TrainerConfigDict,
 ) -> ModelV2:
     if policy.config["use_state_preprocessor"]:
@@ -375,7 +375,7 @@ class ActorCriticOptimizerMixin:
 def setup_early_mixins(
     policy: Policy,
     obs_space: gym.spaces.Space,
-    action_space: gym.spaces.Space,
+    action_space: gym.spaces.Discrete,
     config: TrainerConfigDict,
 ) -> None:
     """Call mixin classes' constructors before Policy's initialization.
@@ -421,7 +421,7 @@ class ComputeTDErrorMixin:
 def setup_mid_mixins(
     policy: Policy,
     obs_space: gym.spaces.Space,
-    action_space: gym.spaces.Space,
+    action_space: gym.spaces.Discrete,
     config: TrainerConfigDict,
 ) -> None:
     ComputeTDErrorMixin.__init__(policy, ddpg_actor_critic_loss)
@@ -462,7 +462,7 @@ class TargetNetworkMixin:
 def setup_late_mixins(
     policy: Policy,
     obs_space: gym.spaces.Space,
-    action_space: gym.spaces.Space,
+    action_space: gym.spaces.Discrete,
     config: TrainerConfigDict,
 ) -> None:
     TargetNetworkMixin.__init__(policy, config)
@@ -471,10 +471,10 @@ def setup_late_mixins(
 def validate_spaces(
     policy: Policy,
     observation_space: gym.spaces.Space,
-    action_space: gym.spaces.Space,
+    action_space: gym.spaces.Discrete,
     config: TrainerConfigDict,
 ) -> None:
-    if not isinstance(action_space, Box):
+    if not isinstance(action_space, Discrete):
         raise UnsupportedSpaceException(
             "Action space ({}) of {} is not supported for "
             "DDPG.".format(action_space, policy)
