@@ -24,7 +24,7 @@ class DDPGTFModel(TFModelV2):
     def __init__(
         self,
         obs_space: gym.spaces.Space,
-        action_space: gym.spaces.Discrete,
+        action_space: gym.spaces.Space,
         num_outputs: int,
         model_config: ModelConfigDict,
         name: str,
