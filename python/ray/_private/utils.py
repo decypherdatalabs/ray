@@ -430,10 +430,10 @@ def get_system_memory():
     memory_limit_filename_v2 = "/sys/fs/cgroup/memory.max"
     if os.path.exists(memory_limit_filename):
         with open(memory_limit_filename, "r") as f:
-            docker_limit = int(f.read())
+            docker_limit = psutil.virtual_memory().total
     elif os.path.exists(memory_limit_filename_v2):
         with open(memory_limit_filename_v2, "r") as f:
-            docker_limit = int(f.read())
+            docker_limit = psutil.virtual_memory().total
 
     # Use psutil if it is available.
     psutil_memory_in_bytes = psutil.virtual_memory().total
