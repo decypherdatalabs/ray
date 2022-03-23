@@ -33,6 +33,7 @@ class DDPGTFModel(TFModelV2):
         actor_hidden_activation: str = "relu",
         critic_hiddens: Optional[List[int]] = None,
         critic_hidden_activation: str = "relu",
+        output_layer_activation: str = "softmax",
         twin_q: bool = False,
         add_layer_norm: bool = False,
     ):
@@ -61,6 +62,7 @@ class DDPGTFModel(TFModelV2):
 
         actor_hidden_activation = getattr(tf.nn, actor_hidden_activation, tf.nn.relu)
         critic_hidden_activation = getattr(tf.nn, critic_hidden_activation, tf.nn.relu)
+        output_layer_activation = getattr(tf.nn, critic_hidden_activation, tf.nn.softmax)
 
         self.model_out = tf.keras.layers.Input(shape=(num_outputs,), name="model_out")
         self.bounded = np.logical_and(
@@ -81,7 +83,7 @@ class DDPGTFModel(TFModelV2):
                         name="LayerNorm_{}".format(i)
                     )(last_layer)
             actor_out = tf.keras.layers.Dense(
-                self.action_dim, activation=softmax, name="actor_out"
+                self.action_dim, activation=output_layer_activation, name="actor_out"
             )(last_layer)
         else:
             actor_out = self.model_out
