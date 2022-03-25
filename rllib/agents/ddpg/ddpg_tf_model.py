@@ -62,7 +62,7 @@ class DDPGTFModel(TFModelV2):
 
         actor_hidden_activation = getattr(tf.nn, actor_hidden_activation, tf.nn.relu)
         critic_hidden_activation = getattr(tf.nn, critic_hidden_activation, tf.nn.relu)
-        output_layer_activation = getattr(tf.nn, critic_hidden_activation, tf.nn.softmax)
+        output_layer_activation = getattr(tf.nn, output_layer_activation, tf.nn.softmax)
 
         self.model_out = tf.keras.layers.Input(shape=(num_outputs,), name="model_out")
         self.bounded = np.logical_and(
